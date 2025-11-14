@@ -8,7 +8,9 @@ import { AdaptiveLab } from '@/pages/AdaptiveLab'
 import { Glossary } from '@/pages/Glossary'
 import { Assessment } from '@/pages/Assessment'
 import { Settings } from '@/pages/Settings'
-import { Placeholder } from '@/pages/Placeholder'
+import { TrialDesigner } from '@/pages/TrialDesigner'
+import { InterimDashboard } from '@/pages/InterimDashboard'
+import { EthicsCenter } from '@/pages/EthicsCenter'
 
 function App() {
   return (
@@ -23,33 +25,9 @@ function App() {
           <Route path="/glossary" element={<Glossary />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/settings" element={<Settings />} />
-          <Route
-            path="/trial-designer"
-            element={
-              <Placeholder
-                title="Trial Designer"
-                description="Design synthetic trials with different randomization schemes and endpoints"
-              />
-            }
-          />
-          <Route
-            path="/interim-dashboard"
-            element={
-              <Placeholder
-                title="Interim Analysis Dashboard"
-                description="Explore interim monitoring, stopping boundaries, and conditional power"
-              />
-            }
-          />
-          <Route
-            path="/ethics"
-            element={
-              <Placeholder
-                title="Ethics Center"
-                description="Understand clinical equipoise, fairness, and regulatory considerations"
-              />
-            }
-          />
+          <Route path="/trial-designer" element={<TrialDesigner />} />
+          <Route path="/interim-dashboard" element={<InterimDashboard />} />
+          <Route path="/ethics" element={<EthicsCenter />} />
         </Route>
       </Routes>
     </BrowserRouter>
