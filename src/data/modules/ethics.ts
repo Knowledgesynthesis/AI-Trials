@@ -136,7 +136,7 @@ const m: ModuleDef = {
       wrong('Only to obtain funding.', 'Funders may require it, but the purpose is transparency against selective reporting.'),
     ]),
     q('et-q7', 'Which 2024 change to the Declaration of Helsinki is correct?', [
-      right('It refers to "participants" rather than "subjects" and calls for engagement with participants and communities.', 'Among the headline changes.'),
+      right('It refers to "participants" rather than "subjects" and calls for engagement with participants and communities.', 'These are among the headline changes of the 2024 revision.'),
       wrong('It abolished all placebo-controlled trials.', 'The balanced placebo paragraph was retained.'),
       wrong('It removed the requirement for informed consent.', 'Consent remains central.'),
       wrong('It banned AI in research.', 'The 2024 revision contains no such provision; commentators noted it says little about AI.'),

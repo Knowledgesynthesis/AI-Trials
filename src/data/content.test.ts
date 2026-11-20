@@ -90,3 +90,49 @@ describe('protocol design review rules', () => {
     expect(f.find((x) => x.id === 'crossover')?.severity).toBe('critical')
   })
 })
+
+describe('math in content', () => {
+  it('md`` preserves LaTeX backslashes and every formula compiles with KaTeX', async () => {
+    const katex = (await import('katex')).default
+    const mods = await Promise.all(curriculum.map((m) => moduleLoaders[m.id]().then((x) => x.default)))
+    let formulas = 0
+    for (const m of mods) {
+      for (const s of m.sections) {
+        for (const b of s.blocks) {
+          const src = b.kind === 'md' || b.kind === 'callout' || b.kind === 'lab' ? b.md : ''
+          // control characters would mean an escape sequence ate a backslash
+          const mangled = [...src].some((ch) => [7, 8, 11, 12, 13].includes(ch.charCodeAt(0)))
+          expect(mangled, `${m.id}/${s.id} contains a mangled escape`).toBe(false)
+          for (const match of src.matchAll(/\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g)) {
+            const tex = match[1] ?? match[2]
+            formulas++
+            expect(() => katex.renderToString(tex, { throwOnError: true }), `${m.id}: ${tex}`).not.toThrow()
+          }
+        }
+      }
+    }
+    expect(formulas).toBeGreaterThan(15)
+  })
+})
+
+describe('answer-position balance', () => {
+  it('the correct option is spread evenly across displayed positions (no exploitable pattern)', async () => {
+    const { createRng, hashString, shuffle } = await import('@/lib/stats/rng')
+    const mods = await Promise.all(curriculum.map((m) => moduleLoaders[m.id]().then((x) => x.default)))
+    const items: QuizItem[] = [...mods.flatMap((m) => [...m.quiz, ...m.sections.flatMap((s) => s.blocks.flatMap((b) => (b.kind === 'check' ? [b.item] : [])))]), ...cases.map((c) => c.check), ...ethicsCases.map((c) => c.decision)]
+    const counts = [0, 0, 0, 0]
+    for (const attempt of [0, 1]) {
+      items.forEach((item, idx) => {
+        const seed = attempt * 101 + (idx % 8)
+        const order = shuffle(createRng(hashString(item.id) ^ Math.imul(seed, 0x9e3779b1)), item.options.map((_, i) => i))
+        const pos = order.indexOf(item.options.findIndex((o) => o.correct))
+        if (pos < 4) counts[pos]++
+      })
+    }
+    const total = counts.reduce((a, b) => a + b, 0)
+    for (const c of counts) {
+      expect(c / total).toBeGreaterThan(0.17)
+      expect(c / total).toBeLessThan(0.33)
+    }
+  })
+})

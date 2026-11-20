@@ -81,7 +81,7 @@ export const ethicsCases: EthicsCase[] = [
       right('Without the decision rules, neither the ethics committee nor regulators can assess participant safety or the scientific validity of the design.', 'Adaptive rules must be pre-specified and reviewable.'),
       wrong('The company may lose patent protection.', 'Not an ethical or regulatory concern of the trial.'),
       wrong('ML models are not allowed in dose-finding.', 'They are allowed with adequate credibility evidence.'),
-      wrong('The trial will be too slow.', 'Irrelevant to the core issue.'),
+      wrong('The trial will be too slow.', 'Speed is not the ethical issue; reviewability of the dosing rules is.'),
     ]),
     considerations: [
       'Confidential disclosure to regulators and ethics committees protects IP while permitting review.',

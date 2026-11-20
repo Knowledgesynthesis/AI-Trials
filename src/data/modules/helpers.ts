@@ -3,12 +3,16 @@ import type { Block, QuizItem, QuizOption, WidgetId } from '../types'
 
 /** Raw (backslash-preserving, for LaTeX) and dedented markdown. */
 export function md(strings: TemplateStringsArray, ...values: unknown[]): string {
-  const raw = String.raw({ raw: strings }, ...values)
+  const raw = String.raw(strings, ...values)
   const lines = raw.replace(/^\n/, '').split('\n')
-  const indents = lines.filter((l) => l.trim()).map((l) => (l.match(/^ */) ?? [''])[0].length)
+  // When text starts on the same line as the opening backtick, that first line has no
+  // indentation; exclude it so the remaining lines are still dedented.
+  const inlineFirst = !raw.startsWith('\n') && lines.length > 1
+  const body = inlineFirst ? lines.slice(1) : lines
+  const indents = body.filter((l) => l.trim()).map((l) => (l.match(/^ */) ?? [''])[0].length)
   const min = indents.length ? Math.min(...indents) : 0
   return lines
-    .map((l) => l.slice(min))
+    .map((l, i) => (inlineFirst && i === 0 ? l : l.slice(min)))
     .join('\n')
     .trim()
 }

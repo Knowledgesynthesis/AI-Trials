@@ -32,7 +32,7 @@ export default function Cases() {
                 aria-expanded={isOpen}
                 className="flex w-full items-start justify-between gap-3 p-5 text-left"
               >
-                <div>
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-lg font-semibold tracking-tight">{c.name}</span>
                     <span className="text-sm text-muted">{c.year}</span>

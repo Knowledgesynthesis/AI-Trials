@@ -145,7 +145,7 @@ export const cases: TrialCase[] = [
     lesson: 'Observational studies had suggested cardiovascular protection; healthy-user and adherence effects explained much of it. Monitoring for harm is as important as monitoring for benefit.',
     check: q('cs-whi', 'Why did observational studies suggest hormone therapy protected the heart?', [
       right('Women who chose and adhered to hormone therapy were healthier in ways the studies did not fully capture (confounding / healthy-user effect).', 'Randomization removed this.'),
-      wrong('The observational studies used a different hormone.', 'Not the main explanation.'),
+      wrong('The observational studies used a different hormone.', 'Formulations differed little; confounding by who chose and stayed on therapy explains the discrepancy.'),
       wrong('Randomized trials systematically underestimate benefits.', 'There is no such general rule; here the observational studies were confounded.'),
       wrong('The WHI trial was too small.', 'With 16,608 women, the trial was very large; size was not the issue.'),
     ]),

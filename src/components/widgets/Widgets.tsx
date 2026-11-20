@@ -127,7 +127,7 @@ function MiniBayes() {
       />
       <div className="h-48">
         <ResponsiveContainer>
-          <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+          <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="t" type="number" domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} tickFormatter={(v) => pct(v, 0)} {...axisProps} />
             <YAxis {...axisProps} tickFormatter={(v) => fmt(v, 0)} width={36} />
@@ -180,7 +180,7 @@ function CpExplainer() {
       />
       <div className="h-52">
         <ResponsiveContainer>
-          <LineChart data={curve} margin={{ top: 8, right: 8, bottom: 0, left: -8 }}>
+          <LineChart data={curve} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="z" type="number" domain={[-1, 3]} ticks={[-1, 0, 1, 2, 3]} {...axisProps} />
             <YAxis domain={[0, 1]} tickFormatter={(v) => pct(v, 0)} {...axisProps} width={44} />

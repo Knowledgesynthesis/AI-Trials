@@ -164,7 +164,7 @@ const m: ModuleDef = {
       right('Require external validation in the target population and monitor performance; development-site metrics overstate real-world performance.', 'Transportability cannot be assumed.'),
       wrong('Proprietary models are always wrong.', 'The lesson is about validation, not ownership.'),
       wrong('AUC below 0.9 is unacceptable.', 'Acceptable performance depends on use.'),
-      wrong('Sepsis cannot be predicted.', 'Too broad a conclusion.'),
+      wrong('Sepsis cannot be predicted.', 'Prediction is possible; the lesson is that developer-reported performance did not transfer.'),
     ]),
     q('ai-q8', 'Which guideline should a trial report follow when the intervention is an AI system?', [
       right('CONSORT-AI (with SPIRIT-AI for the protocol).', 'They extend CONSORT/SPIRIT with AI-specific items.'),

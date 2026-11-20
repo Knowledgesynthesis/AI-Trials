@@ -193,14 +193,14 @@ function LessonBody({ promise }: { promise: Promise<{ default: ModuleDef }> }) {
 
         <nav className="flex flex-wrap justify-between gap-3 border-t border-line pt-6">
           {prev ? (
-            <ButtonLink to={`/learn/${prev.id}`} variant="secondary">
+            <ButtonLink to={`/learn/${prev.id}`} variant="secondary" className="h-auto min-h-10 max-w-full py-2 text-left whitespace-normal">
               <ArrowLeft className="h-4 w-4" /> {prev.num}. {prev.title.split(':')[0]}
             </ButtonLink>
           ) : (
             <span />
           )}
           {next ? (
-            <ButtonLink to={`/learn/${next.id}`}>
+            <ButtonLink to={`/learn/${next.id}`} className="h-auto min-h-10 max-w-full py-2 text-left whitespace-normal">
               {next.num}. {next.title.split(':')[0]} <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           ) : (

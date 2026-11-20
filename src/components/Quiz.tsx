@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { CheckCircle2, ChevronRight, RotateCcw, XCircle } from 'lucide-react'
 import type { QuizItem } from '@/data/types'
 import { cn } from '@/lib/utils'
-import { createRng, shuffle } from '@/lib/stats/rng'
+import { createRng, hashString, shuffle } from '@/lib/stats/rng'
 import { Button } from './ui/primitives'
 import { InlineMarkdown, Markdown } from './Markdown'
 
@@ -22,7 +22,8 @@ export function QuestionCard({
   index?: number
   total?: number
 }) {
-  const order = useMemo(() => shuffle(createRng(seed), item.options.map((_, i) => i)), [item, seed])
+  // Seed from the item id so every question gets its own option order (and retakes reshuffle).
+  const order = useMemo(() => shuffle(createRng(hashString(item.id) ^ Math.imul(seed, 0x9e3779b1)), item.options.map((_, i) => i)), [item, seed])
   const [picked, setPicked] = useState<number | null>(null)
   const answered = picked !== null
   const correctIdx = item.options.findIndex((o) => o.correct)

@@ -110,10 +110,10 @@ const m: ModuleDef = {
   ],
   quiz: [
     q('mu-q1', 'Ten independent true-null endpoints are each tested at α = 0.05. The probability of at least one false positive is about…', [
-      right('40%', '1 − 0.95¹⁰ = 0.401.'),
+      right('40%', '1 − 0.95¹⁰ = 0.401: one minus the chance that all ten tests are negative.'),
       wrong('5%', 'That is the per-test rate.'),
       wrong('50%', '10 × 0.05 = 0.5 is the expected number of false positives, not the probability of at least one.'),
-      wrong('10%', 'There is no such shortcut.'),
+      wrong('10%', 'No simple rule gives 10%; the exact value for independent tests is 1 − 0.95¹⁰ ≈ 40%.'),
     ]),
     q('mu-q2', 'Which procedure is uniformly at least as powerful as Bonferroni and valid under any dependence?', [
       right('Holm', 'Holm step-down dominates Bonferroni without extra assumptions.'),
@@ -154,7 +154,7 @@ const m: ModuleDef = {
     q('mu-q8', 'Why does FDA require multiplicity control for key secondary endpoints but not exploratory ones?', [
       right('Key secondaries may support labelling claims, so false positives have regulatory consequences; exploratory results are descriptive.', 'Error control is tied to claims.'),
       wrong('Exploratory endpoints are always non-significant.', 'They may be significant; they simply carry no confirmatory claim.'),
-      wrong('Secondary endpoints have more power.', 'Unrelated to the rationale.'),
+      wrong('Secondary endpoints have more power.', 'Power is not the reason; the rationale is which results can support claims.'),
       wrong('Exploratory endpoints are not analysed.', 'They are analysed and reported descriptively.'),
     ]),
   ],

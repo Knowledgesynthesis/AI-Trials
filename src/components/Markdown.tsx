@@ -6,6 +6,14 @@ import { Link } from 'react-router'
 import 'katex/dist/katex.min.css'
 import { cn } from '@/lib/utils'
 
+/**
+ * remark-math treats "$$…$$" written on one line inside a paragraph as inline math. Rewrite such
+ * lines as fenced display blocks so equations render centred and scroll instead of overflowing.
+ */
+function normaliseDisplayMath(src: string): string {
+  return src.replace(/^[ \t]*\$\$(.+?)\$\$[ \t]*$/gm, (_, body: string) => `\n$$\n${body.trim()}\n$$\n`)
+}
+
 export function Markdown({ children, className, compact }: { children: string; className?: string; compact?: boolean }) {
   return (
     <div className={cn('prose-lesson', compact && 'prose-compact', className)}>
@@ -23,7 +31,7 @@ export function Markdown({ children, className, compact }: { children: string; c
             ),
         }}
       >
-        {children}
+        {normaliseDisplayMath(children)}
       </ReactMarkdown>
     </div>
   )
