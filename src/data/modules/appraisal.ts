@@ -128,11 +128,11 @@ const m: ModuleDef = {
     q('ap-q1', 'A trial reports "significant benefit" on a composite driven by revascularisations, with no difference in death or MI. The abstract says the drug "prevents heart attacks". What is the main error?', [
       right('The conclusion attributes the composite effect to a component that showed no effect.', 'Components must be read separately.'),
       wrong('Composites should never be primary endpoints.', 'They can be appropriate.'),
-      wrong('The p-value is too small to be credible.', 'Not the issue.'),
+      wrong('The p-value is too small to be credible.', 'Small p-values are not in themselves suspicious; the error is in the interpretation of the components.'),
       wrong('Revascularisation is not a clinical event.', 'It is, but less important than death or MI.'),
     ]),
     q('ap-q2', 'Relative risk 0.80 for stroke. Your patient\'s 5-year risk is 5%. What is the absolute benefit over 5 years?', [
-      right('1 percentage point (NNT 100).', '5% × 0.20 = 1%.'),
+      right('1 percentage point (NNT 100).', 'Absolute benefit = baseline risk × relative reduction = 5% × 0.20 = 1 percentage point, so NNT = 100.'),
       wrong('20 percentage points.', 'That confuses relative and absolute reductions.'),
       wrong('4 percentage points.', '5% − 4% = 1%, not 4%.'),
       wrong('Cannot be estimated.', 'Absolute benefit = baseline risk × relative reduction, if the relative effect transfers.'),
@@ -140,8 +140,8 @@ const m: ModuleDef = {
     q('ap-q3', 'Which registered-versus-published discrepancy is most concerning?', [
       right('The registered primary outcome is reported as secondary and a different, significant outcome is presented as primary.', 'Outcome switching is a major source of bias.'),
       wrong('The publication adds exploratory analyses clearly labelled as such.', 'Acceptable if labelled.'),
-      wrong('The sample size was slightly larger than planned due to over-recruitment.', 'Minor, if explained.'),
-      wrong('The trial name changed.', 'Irrelevant.'),
+      wrong('The sample size was slightly larger than planned due to over-recruitment.', 'Minor over-recruitment, if explained, does not bias results the way outcome switching does.'),
+      wrong('The trial name changed.', 'A name change does not affect validity; changes to outcomes do.'),
     ]),
     q('ap-q4', 'An open-label trial with all-cause mortality as primary endpoint. How worried should you be about lack of blinding?', [
       right('Relatively little for the primary endpoint, which is objective; more for subjective secondary endpoints.', 'Wood et al. (2008) found little bias for mortality.'),
@@ -151,7 +151,7 @@ const m: ModuleDef = {
     ]),
     q('ap-q5', 'A Bayesian trial reports P(benefit) = 0.995 using an informative prior with ESS 300 and 250 trial patients. What should you check first?', [
       right('The result under a sceptical or non-informative prior — the prior contributes more information than the trial.', 'Prior dominance must be shown not to drive the conclusion.'),
-      wrong('Whether the posterior mean is positive.', 'Already implied.'),
+      wrong('Whether the posterior mean is positive.', 'A 0.995 posterior probability of benefit already implies that; the question is how much of it came from the prior.'),
       wrong('Whether a p-value was reported.', 'Secondary to prior influence.'),
       wrong('Nothing; 0.995 is decisive.', 'Its meaning depends on the prior.'),
     ]),
@@ -169,7 +169,7 @@ const m: ModuleDef = {
     ]),
     q('ap-q8', 'What best describes a proportionate conclusion for a trial stopped early on a surrogate-driven composite?', [
       right('Benefit on the composite is likely but its size is uncertain; effects on hard outcomes are unproven; confirmation is needed.', 'Matches the strength of evidence.'),
-      wrong('The drug should become standard of care.', 'Overreach.'),
+      wrong('The drug should become standard of care.', 'Overreach: an early-stopped, surrogate-driven result cannot establish an effect on hard outcomes.'),
       wrong('The trial is worthless.', 'Underreach; it provides useful evidence.'),
       wrong('The drug works but only in the subgroup with the largest effect.', 'Subgroup over-interpretation.'),
     ]),

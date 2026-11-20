@@ -173,7 +173,11 @@ export function QuizRunner({
           onClick={() => {
             const next = idx + 1
             setIdx(next)
-            if (next >= items.length) onFinish?.(results.filter(Boolean).length / items.length, results)
+            if (next >= items.length) {
+              // report correctness in the original item order (questions were shuffled)
+              const byItem = items.map((_, i) => results[order.indexOf(i)] ?? false)
+              onFinish?.(results.filter(Boolean).length / items.length, byItem)
+            }
           }}
         >
           {idx + 1 === items.length ? 'See result' : 'Next'} <ChevronRight className="h-4 w-4" />

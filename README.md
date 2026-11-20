@@ -1,228 +1,80 @@
-# AI Trials: Data Science in Clinical Research
+# AI Trials — modern clinical trial methods, learned by doing
 
-An interactive, evidence-based educational platform that teaches clinicians and researchers how machine learning and modern data science principles interface with clinical trial design, monitoring, and interpretation.
+An interactive, evidence-based course and toolkit on how modern clinical trials are designed, monitored and read: randomization, estimands, power, multiplicity, non-inferiority, group-sequential and adaptive designs, Bayesian methods, and AI/ML in trials.
 
-## Overview
+**Live:** https://ai-trials.vercel.app
 
-AI Trials is a mobile-first, offline-capable educational app designed to help medical students, residents, fellows, attendings, and research coordinators master:
+## What's inside
 
-- **Clinical Trial Fundamentals**: Randomization, blinding, endpoints, and statistical power
-- **Adaptive Trial Designs**: Response-adaptive randomization, sample size re-estimation, interim analyses
-- **Bayesian Methods**: Prior distributions, posterior updating, credible intervals, and decision-making
-- **ML in Clinical Trials**: Stratification, predictive enrichment, and fairness considerations (conceptual)
-- **Ethics & Regulatory**: Equipoise, informed consent, FDA/ICH guidance
+**11 modules** (≈ 6.5 h), each with learning objectives, worked examples, misconceptions, real-trial evidence, inline retrieval checks, live widgets, and an 8-question mastery check (80% to pass) where *every* option explains why it is right or wrong.
 
-## Features
+| # | Module | Level |
+|---|---|---|
+| 1 | Randomized trials: the logic of a fair comparison | Core |
+| 2 | Estimands (ICH E9(R1)) | Core |
+| 3 | Error, power and sample size | Core |
+| 4 | Endpoints, multiplicity and subgroups | Core |
+| 5 | Non-inferiority and equivalence | Intermediate |
+| 6 | Interim monitoring and group-sequential designs | Intermediate |
+| 7 | Adaptive designs and master protocols | Advanced |
+| 8 | Bayesian methods in trials | Advanced |
+| 9 | AI and machine learning in trials | Advanced |
+| 10 | Ethics, oversight and regulation | Core |
+| 11 | Capstone: appraising a modern trial | Advanced |
 
-### Interactive Learning Modules
-- **Foundations of Clinical Trials**: Randomization, endpoints, power, and error types
-- **Adaptive Trial Designs**: Understanding how trials can modify based on accumulating data
-- **Bayesian Methods**: Hands-on exploration of Bayesian statistics in trials
-- **Interim Analyses**: Alpha spending, stopping boundaries, and conditional power
-- **Machine Learning in Trials**: Conceptual understanding of ML-enhanced trial strategies
-- **Ethics & Regulatory**: Navigate the ethical and regulatory landscape
+**10 labs** — working tools, not illustrations:
 
-### Interactive Laboratories
+- **Sample size & power studio** — continuous, binary, time-to-event; superiority and NI; formula with your numbers; verified by simulation.
+- **Randomization lab** — simple, blocked, stratified and minimisation schemes on balance *and* predictability.
+- **Estimand builder** — five attributes, a strategy per intercurrent event, and the consequences for data collection and analysis.
+- **Multiplicity & subgroups** — Bonferroni/Holm/Hochberg/fixed-sequence on your p-values; a subgroup "lottery" under a uniform true effect.
+- **Non-inferiority margin lab** — M1/M2 from historical evidence, classification of results, synthesis-method check.
+- **Group-sequential monitor** — exact α-spending boundaries, futility, expected N, a step-through DMC simulator, early-stopping bias.
+- **Response-adaptive randomization simulator** — RAR vs 1:1 over thousands of trials, including time-trend bias.
+- **Bayesian analysis lab** — prior × likelihood → posterior, two-arm decisions with prior sensitivity, Type I error of Bayesian monitoring.
+- **AI enrichment & fairness lab** — sample size vs screening vs representation vs calibration; covariate adjustment as the alternative.
+- **Protocol design review** — describe a trial, get an itemised methodological review with sources; export as Markdown.
 
-#### Bayesian Updating Laboratory
-- Explore how posterior distributions evolve as data accumulate
-- Adjust priors (uniform, weakly informative, informative, skeptical)
-- Visualize credible intervals and probability of treatment superiority
-- Compare Bayesian vs frequentist interpretations
+Plus 12 landmark-trial cases, an 8-case ethics casebook, a randomized final exam with per-module feedback, a 90-term glossary and a source registry with regulatory status.
 
-#### Adaptive Design Simulator
-- Simulate response-adaptive randomization in real-time
-- Observe allocation probabilities shift toward better-performing arms
-- Adjust tuning parameters to balance ethics and statistical efficiency
-- Visualize cumulative allocation and final response rates
+## Accuracy
 
-### Additional Features
-- **Comprehensive Glossary**: 18+ essential terms with examples and cross-references
-- **Assessment Hub**: Scenario-based questions testing your understanding
-- **Dark Mode**: Full dark mode support for comfortable learning
-- **Offline Capable**: Progressive Web App with offline functionality
-- **Mobile First**: Responsive design optimized for all devices
-- **Progress Tracking**: Monitor your learning journey
+The statistics engine (`src/lib/stats`) is implemented from first principles and **tested against published reference values**:
 
-## Technical Stack
+- Normal, gamma, beta and incomplete-beta functions to ~1e-12 relative accuracy (checked against mpmath/scipy).
+- Exact P(p_T > p_C) for Beta posteriors (closed form), validated by Monte Carlo.
+- Group-sequential boundaries by recursive numerical integration, reproducing Pocock (1977) and O'Brien–Fleming (1979) constants, the Lan–DeMets OBF boundaries 4.333/2.963/2.359/2.014, Jennison & Turnbull inflation factors (1.207, 1.026), and Armitage's repeated-testing error rates (8.3%, 10.7%, 14.2%, 19.3%).
+- Sample sizes matching textbook values (63/arm for δ = 0.5 SD; 97/107 per arm for 40% vs 60%; 508 events for HR 0.75).
+- Content integrity tests: every question has exactly one correct option with an explanation for each option; every citation and internal link resolves.
 
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **UI Components**: Custom components following shadcn/ui patterns
-- **Charts**: Recharts for interactive visualizations
-- **State Management**: Zustand with persistence
-- **Routing**: React Router v6
-- **Offline**: Vite PWA plugin with Workbox
-- **Statistics**: Custom implementation of Bayesian and adaptive design algorithms
+Regulatory statements reflect guidance status as of **November 2026** (e.g. FDA Bayesian draft guidance Jan 2026; ICH E20 draft; ICH E6(R3); FDA–EMA AI principles Jan 2026; CONSORT/SPIRIT 2025). Drafts are labelled as drafts.
 
-## Getting Started
+## Development
 
-### Prerequisites
-- Node.js 18+ and npm
-
-### Installation
+Requires Node ≥ 22.22.
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev        # local dev server
+npm test           # unit + content tests (Vitest)
+npm run lint       # ESLint (flat config, React Compiler rules)
+npm run typecheck  # TypeScript project references
+npm run build      # production build + PWA service worker
 ```
 
-### Development
-
-```bash
-# Run linter
-npm run lint
-
-# Type check
-npx tsc --noEmit
-```
-
-## Project Structure
+Stack: React 19, React Router 8, Vite 8, TypeScript 6, Tailwind CSS 4, Recharts 3, Zustand 5 (progress persisted locally), KaTeX, Vitest 5, vite-plugin-pwa (offline). Heavy simulations run in a Web Worker. Deployed on Vercel with SPA rewrites (`vercel.json`).
 
 ```
 src/
-├── components/          # React components
-│   ├── ui/             # Reusable UI components
-│   ├── layout/         # Layout components (Header, Sidebar)
-│   └── modules/        # Module-specific components
-├── data/               # Static data (modules, glossary)
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions and algorithms
-│   ├── statistics.ts   # Bayesian and adaptive design engines
-│   └── utils.ts        # General utilities
-├── pages/              # Route pages
-├── store/              # Zustand state management
-├── styles/             # Global styles
-└── types/              # TypeScript type definitions
+  lib/stats/        statistics engine + tests
+  lib/designReview  protocol review rules
+  workers/          off-main-thread simulations
+  data/modules/     course content (one file per module)
+  data/             curriculum, labs, references, glossary, cases, ethics cases
+  pages/, pages/labs/
+  components/       UI kit, charts, quiz, markdown/KaTeX renderer, widgets
 ```
-
-## Educational Principles
-
-### Evidence-Based
-- Aligned with **FDA Adaptive Design Guidance (2019)**
-- Follows **ICH E9/E9(R1)** statistical principles
-- Consistent with **CONSORT** and **SPIRIT-AI** reporting standards
-- References peer-reviewed literature and regulatory guidance
-
-### Statistically Rigorous
-- All formulas are standard, validated statistical methods
-- Beta distributions for binary Bayesian updating
-- Proper alpha spending functions (O'Brien-Fleming, Pocock)
-- Conditional power calculations
-- Monte Carlo simulation for complex probabilities
-
-### Ethically Sound
-- **Synthetic data only** - no real patient information
-- Conceptual ML integration - not for clinical predictions
-- Emphasis on clinical equipoise and informed consent
-- Regulatory compliance and ethical oversight
-
-### Pedagogically Designed
-- Bloom's Taxonomy alignment (Remember → Create)
-- Progressive difficulty (MS3 → Researcher)
-- Interactive simulations for active learning
-- Immediate feedback and rationales
-- Scenario-based assessments
-
-## Key Concepts Covered
-
-### Bayesian Statistics
-- Prior, likelihood, and posterior distributions
-- Credible intervals vs confidence intervals
-- Bayesian decision rules
-- Prior selection and sensitivity analysis
-
-### Adaptive Designs
-- Response-adaptive randomization
-- Sample size re-estimation
-- Interim analyses and stopping rules
-- Group sequential designs
-- Alpha spending functions
-
-### Statistical Inference
-- Type I and Type II errors
-- Statistical power and sample size
-- Multiple testing adjustments
-- Conditional power and futility
-
-### Machine Learning (Conceptual)
-- Patient stratification and risk scoring
-- Predictive enrichment
-- Algorithmic fairness and bias
-- Validation requirements
-
-## Learning Objectives
-
-By completing this curriculum, learners will be able to:
-
-1. **Explain** the fundamentals of randomized trial design
-2. **Interpret** Bayesian posterior distributions and credible intervals
-3. **Apply** response-adaptive randomization concepts
-4. **Analyze** interim analysis results using stopping boundaries
-5. **Evaluate** the role of ML in trial stratification
-6. **Assess** ethical considerations in adaptive and ML-enhanced trials
-
-## Accessibility
-
-- **WCAG 2.2 AA** compliant
-- Keyboard navigation support
-- Screen reader friendly
-- High contrast modes
-- Responsive text sizing
-
-## Browser Support
-
-- Chrome/Edge (last 2 versions)
-- Firefox (last 2 versions)
-- Safari (last 2 versions)
-- Mobile browsers (iOS Safari, Chrome Android)
-
-## Contributing
-
-This is an educational platform developed following the master prompt in `plan.md`. The design emphasizes:
-- **Clinical intuition** paired with statistical rigor
-- **Pathoma-like clarity** for trial science
-- **Evidence-based** alignment with regulatory norms
-- **No algorithmic hallucinations** - all methods are validated
 
 ## License
 
-MIT License - This is an educational tool for non-commercial use.
-
-## Acknowledgments
-
-- FDA Adaptive Design Guidance
-- ICH E9/E9(R1) Statistical Principles
-- CONSORT and SPIRIT-AI Extensions
-- Clinical trials methodology literature
-- Bayesian statistics community
-
-## Disclaimer
-
-**Educational Use Only**: This application is designed for educational purposes only. It uses synthetic data and conceptual simulations. It is not intended for:
-- Real clinical decision-making
-- Actual trial design or analysis
-- Patient care or treatment decisions
-- Regulatory submissions
-
-Always consult with biostatisticians, clinical trialists, and regulatory experts for real trial design and analysis.
-
-## Contact & Support
-
-For questions, feedback, or issues, please refer to the project documentation or consult with clinical trial methodology experts.
-
----
-
-**Version**: 1.0.0
-**Last Updated**: 2025
-**Platform**: Web (Progressive Web App)
+MIT. All patient data in the labs are synthetic.

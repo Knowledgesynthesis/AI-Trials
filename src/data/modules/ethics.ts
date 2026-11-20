@@ -100,16 +100,16 @@ const m: ModuleDef = {
   ],
   quiz: [
     q('et-q1', 'Clinical equipoise refers to…', [
-      right('Honest professional disagreement in the expert community about which treatment is better.', 'Freedman (1987).'),
+      right('Honest professional disagreement in the expert community about which treatment is better.', 'Freedman\'s (1987) clinical equipoise: uncertainty at the level of the expert community, not the individual.'),
       wrong('The individual investigator being exactly 50:50 in belief.', 'That is "theoretical equipoise", which Freedman argued is too fragile.'),
       wrong('Equal numbers of patients in each arm.', 'Unrelated to allocation ratios.'),
-      wrong('Equal side-effect profiles of the treatments.', 'Not the definition.'),
+      wrong('Equal side-effect profiles of the treatments.', 'Equipoise concerns uncertainty about overall net benefit, not equal side effects.'),
     ]),
     q('et-q2', 'Why are interim efficacy results confined to the DMC?', [
       right('Partial, noisy results could erode community equipoise and alter conduct, compromising both ethics and validity.', 'Confidentiality protects the trial until the evidence is convincing.'),
       wrong('Because investigators are not trusted with data.', 'It is about avoiding influence, not trust.'),
       wrong('Because regulators require secrecy about all trial data.', 'Blinded safety data are shared with the sponsor.'),
-      wrong('To reduce costs.', 'Unrelated.'),
+      wrong('To reduce costs.', 'Cost is not the reason; protecting equipoise and trial integrity is.'),
     ]),
     q('et-q3', 'What should a consent form say about response-adaptive randomization?', [
       right('That the chance of receiving each treatment will change during the trial based on accumulating results.', 'Accurate disclosure at enrolment avoids misleading participants.'),
@@ -119,9 +119,9 @@ const m: ModuleDef = {
     ]),
     q('et-q4', 'What is the "therapeutic misconception"?', [
       right('Participants believing research procedures (like allocation) are chosen for their individual benefit.', 'It undermines informed consent.'),
-      wrong('Researchers believing the experimental treatment works.', 'That is optimism bias.'),
-      wrong('Patients misunderstanding drug doses.', 'Not the meaning.'),
-      wrong('Placebo effects in the control arm.', 'Not the meaning.'),
+      wrong('Researchers believing the experimental treatment works.', 'That is investigator optimism bias, a different problem.'),
+      wrong('Patients misunderstanding drug doses.', 'Dose misunderstanding is a comprehension problem, not the therapeutic misconception.'),
+      wrong('Placebo effects in the control arm.', 'Placebo effects are physiological or psychological responses, not a misconception about research.'),
     ]),
     q('et-q5', 'Which statement best captures ICH E6(R3)?', [
       right('Quality by design and risk-proportionate oversight focused on factors critical to participant safety and result reliability.', 'A shift from uniform, checklist monitoring.'),
@@ -133,13 +133,13 @@ const m: ModuleDef = {
       right('It makes trials and their pre-specified outcomes public, preventing selective reporting and outcome switching.', 'ICMJE, Helsinki and FDAAA all require it.'),
       wrong('To advertise the trial to patients.', 'A side benefit, not the purpose.'),
       wrong('It is optional for phase III trials.', 'It is required for applicable trials.'),
-      wrong('Only to obtain funding.', 'Not the main purpose.'),
+      wrong('Only to obtain funding.', 'Funders may require it, but the purpose is transparency against selective reporting.'),
     ]),
     q('et-q7', 'Which 2024 change to the Declaration of Helsinki is correct?', [
       right('It refers to "participants" rather than "subjects" and calls for engagement with participants and communities.', 'Among the headline changes.'),
       wrong('It abolished all placebo-controlled trials.', 'The balanced placebo paragraph was retained.'),
       wrong('It removed the requirement for informed consent.', 'Consent remains central.'),
-      wrong('It banned AI in research.', 'No such provision.'),
+      wrong('It banned AI in research.', 'The 2024 revision contains no such provision; commentators noted it says little about AI.'),
     ]),
   ],
   sources: ['belmont', 'helsinki', 'freedman1987', 'hey2015', 'ich-e6r3', 'eu-ctr', 'icmje-reg', 'icmje-sharing', 'spirit2025', 'consort2025', 'fdora-dap', 'recovery2021'],

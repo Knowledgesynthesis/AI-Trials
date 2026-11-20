@@ -100,7 +100,7 @@ const m: ModuleDef = {
             [
               right('The analysis implicitly targets a hypothetical "had they stayed on treatment" effect, not the stated estimand.', 'MAR on on-treatment data assumes discontinued patients behave like similar patients who stayed on drug — a hypothetical strategy.'),
               wrong('None; mixed models are unbiased under any missing-data mechanism.', 'Mixed models are valid under MAR, and here MAR imposes the wrong scenario.'),
-              wrong('Mixed models cannot handle continuous endpoints.', 'They routinely do.'),
+              wrong('Mixed models cannot handle continuous endpoints.', 'Mixed models for repeated measures are standard for continuous endpoints; the problem is the estimand they target here.'),
               wrong('The trial should switch to last-observation-carried-forward.', 'LOCF rests on implausible assumptions and does not target a clearly defined estimand.'),
             ],
           ),

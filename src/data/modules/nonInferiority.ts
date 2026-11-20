@@ -92,7 +92,7 @@ const m: ModuleDef = {
   quiz: [
     q('ni-q1', 'What does M1 represent?', [
       right('The effect of the active control versus placebo that can reliably be assumed in the new trial.', 'It is the whole control effect, estimated conservatively from history.'),
-      wrong('The largest clinically acceptable loss of effect.', 'That is M2.'),
+      wrong('The largest clinically acceptable loss of effect.', 'That is M2, the clinical margin, usually a fraction of M1.'),
       wrong('The minimal clinically important difference for superiority.', 'NI margins are derived differently.'),
       wrong('The expected difference between new and control drugs.', 'That is an input to the sample size, not the margin.'),
     ]),
@@ -110,7 +110,7 @@ const m: ModuleDef = {
     ]),
     q('ni-q4', 'What is the constancy assumption?', [
       right('That the control drug\'s effect versus placebo in the new trial equals its effect in the historical trials used to set M1.', 'Changes in population, care or endpoints undermine it.'),
-      wrong('That both arms have the same variance.', 'Unrelated.'),
+      wrong('That both arms have the same variance.', 'Equal variances is a modelling assumption, not the constancy assumption, which concerns the control drug\'s effect.'),
       wrong('That the new drug\'s effect is constant over time.', 'It concerns the control drug\'s effect.'),
       wrong('That the margin is the same in every trial.', 'Margins are trial-specific.'),
     ]),
@@ -123,8 +123,8 @@ const m: ModuleDef = {
     q('ni-q6', 'What is "biocreep"?', [
       right('Successive NI trials, each against the previous NI drug, gradually eroding efficacy toward placebo.', 'Each step may lose up to M.'),
       wrong('Gradual increase in sample size during a trial.', 'That is sample-size re-estimation.'),
-      wrong('Bias from biological variability.', 'Not the meaning.'),
-      wrong('Drift in assay measurement over time.', 'Not the meaning.'),
+      wrong('Bias from biological variability.', 'Biocreep is about erosion of efficacy across successive NI trials, not variability.'),
+      wrong('Drift in assay measurement over time.', 'Measurement drift is a different problem; biocreep is erosion of efficacy across successive NI comparisons.'),
     ]),
     q('ni-q7', 'How is equivalence typically demonstrated at α = 0.05?', [
       right('Two one-sided tests: the 90% CI must lie entirely within (−M, +M).', 'TOST at 5% each corresponds to a 90% CI.'),

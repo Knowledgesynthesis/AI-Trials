@@ -88,7 +88,7 @@ const m: ModuleDef = {
             [
               right('Non-concurrent controls: changes over time in care or case mix are confounded with treatment.', 'Only concurrently randomized controls share the same calendar-time conditions.'),
               wrong('Too few control patients.', 'Using more controls is the motivation; the problem is bias.'),
-              wrong('Arm D must use a different endpoint.', 'Unrelated.'),
+              wrong('Arm D must use a different endpoint.', 'Arms in a platform normally share the endpoint; the problem is the timing of the control patients.'),
               wrong('Type I error cannot be computed for platform trials.', 'It can, by analysis or simulation.'),
             ],
           ),
@@ -142,7 +142,7 @@ const m: ModuleDef = {
       wrong('It allows choosing weights after seeing the data.', 'Weights must be pre-specified.'),
     ]),
     q('ad-q4', 'In I-SPY 2, veliparib + carboplatin graduated in triple-negative breast cancer. What did BrighTNess show?', [
-      right('The benefit was attributable to carboplatin; adding veliparib did not improve pCR.', 'pCR 53% vs 58% vs 31%.'),
+      right('The benefit was attributable to carboplatin; adding veliparib did not improve pCR.', 'pCR was 53% with veliparib + carboplatin + paclitaxel, 58% with carboplatin + paclitaxel and 31% with paclitaxel alone.'),
       wrong('Veliparib was the active component.', 'The opposite was found.'),
       wrong('Neither drug had any effect.', 'Carboplatin clearly increased pCR versus paclitaxel alone.'),
       wrong('The I-SPY 2 result was a statistical error.', 'The combination did work — because of carboplatin.'),
@@ -157,12 +157,12 @@ const m: ModuleDef = {
       right('It typically lowers power for a given N, makes allocation highly variable and is biased by time trends.', 'Documented by Korn & Freidlin and Thall et al.'),
       wrong('It is illegal under FDA rules.', 'FDA discusses RAR; it is not prohibited.'),
       wrong('It always puts more patients on the inferior arm.', 'On average it puts more on the better arm; the issue is variability and efficiency.'),
-      wrong('It cannot be simulated.', 'It can and must be.'),
+      wrong('It cannot be simulated.', 'RAR designs can and must be simulated to show their operating characteristics.'),
     ]),
     q('ad-q7', 'Why are "3+3" dose-escalation designs criticised?', [
       right('They treat many patients at sub-therapeutic doses and estimate the maximum tolerated dose poorly compared with model-based designs.', 'CRM and BOIN perform better.'),
       wrong('They are too complex to run.', 'They are simple — that is their appeal.'),
-      wrong('They require Bayesian software.', '3+3 needs none.'),
+      wrong('They require Bayesian software.', '3+3 is a rule-based algorithm with no statistical model; its weakness is poor performance, not software.'),
       wrong('They cannot stop for toxicity.', 'They stop based on toxicity counts.'),
     ]),
     q('ad-q8', 'Which document guides reporting of adaptive trials?', [

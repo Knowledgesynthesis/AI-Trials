@@ -118,13 +118,13 @@ const m: ModuleDef = {
     q('mu-q2', 'Which procedure is uniformly at least as powerful as Bonferroni and valid under any dependence?', [
       right('Holm', 'Holm step-down dominates Bonferroni without extra assumptions.'),
       wrong('Hochberg', 'More powerful still, but requires independence or positive dependence.'),
-      wrong('Unadjusted testing', 'Does not control FWER.'),
+      wrong('Unadjusted testing', 'Unadjusted testing does not control the familywise error rate at all.'),
       wrong('Fixed sequence', 'Powerful when the order is right, but not uniformly more powerful than Bonferroni.'),
     ]),
     q('mu-q3', 'A trial tests endpoints in a fixed sequence A → B → C at α = 0.05: p_A = 0.01, p_B = 0.20, p_C = 0.001. Which claims are supported?', [
       right('A only.', 'Testing stops at B; C cannot be claimed, however small its p-value.'),
       wrong('A and C.', 'Skipping B breaks the procedure and FWER control.'),
-      wrong('All three, since two are very small.', 'B was not significant.'),
+      wrong('All three, since two are very small.', 'B was not significant, so the sequence stops; small p-values later in the sequence cannot be claimed.'),
       wrong('None, because B failed.', 'A was tested first and passed.'),
     ]),
     q('mu-q4', 'In CAST, encainide and flecainide suppressed ventricular ectopy after MI. What happened to mortality?', [

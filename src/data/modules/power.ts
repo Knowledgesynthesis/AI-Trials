@@ -186,7 +186,7 @@ const m: ModuleDef = {
     q('p-q5', 'Mortality is 40% in the control arm and 30% in the treatment arm. Which statement is correct?', [
       right('RR = 0.75 and OR ≈ 0.64; the OR overstates the relative risk reduction because the outcome is common.', 'OR = (0.3/0.7)/(0.4/0.6) = 0.643.'),
       wrong('RR and OR are both 0.75.', 'They coincide only for rare outcomes.'),
-      wrong('NNT = 30.', 'NNT = 1/0.10 = 10.'),
+      wrong('NNT = 30.', 'NNT = 1 / absolute risk reduction = 1/0.10 = 10.'),
       wrong('The absolute risk reduction is 25%.', 'The ARR is 10 percentage points; 25% is the relative reduction.'),
     ]),
     q('p-q6', 'With total N fixed, how does 2:1 allocation compare with 1:1?', [

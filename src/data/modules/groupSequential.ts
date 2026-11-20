@@ -154,11 +154,11 @@ const m: ModuleDef = {
     q('gs-q5', 'Why must interim comparative results be withheld from the sponsor?', [
       right('Knowledge of emerging results can influence trial conduct and decisions, compromising integrity.', 'Confidentiality protects the trial\'s credibility.'),
       wrong('Sponsors are not allowed to know about adverse events.', 'Sponsors receive blinded safety reports; comparative efficacy data are withheld.'),
-      wrong('It reduces the sample size.', 'Unrelated.'),
+      wrong('It reduces the sample size.', 'Confidentiality has no bearing on sample size; it protects the trial from decisions influenced by emerging results.'),
       wrong('It is required only for Bayesian trials.', 'It applies to all monitored trials.'),
     ]),
     q('gs-q6', 'Trials stopped early for benefit tend to…', [
-      right('Overestimate the treatment effect, especially when the number of events is small.', 'Bassler et al. (2010).'),
+      right('Overestimate the treatment effect, especially when the number of events is small.', 'Stopping when Z crosses a high boundary selects random highs; Bassler et al. (2010) found ratio of relative risks 0.71 vs non-truncated trials.'),
       wrong('Underestimate the treatment effect.', 'Selection on crossing a high boundary biases upward.'),
       wrong('Give unbiased estimates if boundaries are strict.', 'Strictness reduces but does not remove the bias.'),
       wrong('Have inflated Type I error regardless of boundaries.', 'Proper boundaries control Type I error.'),

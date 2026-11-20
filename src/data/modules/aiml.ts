@@ -145,7 +145,7 @@ const m: ModuleDef = {
     q('ai-q4', 'What was the main cause of bias in the algorithm studied by Obermeyer et al.?', [
       right('Using healthcare cost as the label for health need.', 'Unequal spending at equal need made cost a biased proxy.'),
       wrong('Including race as a predictor.', 'Race was not an input; the label caused the bias.'),
-      wrong('Too little training data.', 'Data volume was large.'),
+      wrong('Too little training data.', 'The data set covered millions of patients; the bias came from the label, not the amount of data.'),
       wrong('A coding error.', 'The bias was structural, not a bug.'),
     ]),
     q('ai-q5', 'Why can a model not, in general, satisfy calibration within groups and equal false-positive and false-negative rates at the same time?', [
@@ -158,7 +158,7 @@ const m: ModuleDef = {
       right('Model influence and decision consequence.', 'High influence on a high-consequence decision demands the most credibility evidence.'),
       wrong('Number of parameters and training time.', 'Technical size is not the risk criterion.'),
       wrong('The AUC alone.', 'Performance is evidence for credibility, not the risk classification.'),
-      wrong('Whether the model is open source.', 'Not the criterion.'),
+      wrong('Whether the model is open source.', 'Openness can help scrutiny, but risk is defined by model influence and decision consequence.'),
     ]),
     q('ai-q7', 'The Epic Sepsis Model performed far worse on external validation than reported. What general lesson applies to trials using AI to select or measure patients?', [
       right('Require external validation in the target population and monitor performance; development-site metrics overstate real-world performance.', 'Transportability cannot be assumed.'),
