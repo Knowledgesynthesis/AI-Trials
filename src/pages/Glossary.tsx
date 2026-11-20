@@ -1,165 +1,79 @@
-import { useState, useMemo } from 'react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
-import { glossaryTerms } from '@/data/glossary'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router'
 import { Search } from 'lucide-react'
+import { glossary } from '@/data/glossary'
+import { curriculum } from '@/data/curriculum'
+import type { GlossaryTerm } from '@/data/types'
+import { Badge, PageHeader } from '@/components/ui/primitives'
+import { Segmented } from '@/components/ui/controls'
 
-export function Glossary() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+const CATS: Array<'All' | GlossaryTerm['category']> = ['All', 'Design', 'Statistics', 'Adaptive', 'Bayesian', 'AI/ML', 'Ethics & Regulation']
 
-  const categories = useMemo(() => {
-    const cats = new Set(glossaryTerms.map((term) => term.category))
-    return Array.from(cats).sort()
+const slug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+
+export default function Glossary() {
+  const [query, setQuery] = useState('')
+  const [cat, setCat] = useState<(typeof CATS)[number]>('All')
+  useEffect(() => {
+    document.title = 'Glossary · AI Trials'
   }, [])
-
-  const filteredTerms = useMemo(() => {
-    return glossaryTerms.filter((term) => {
-      const matchesSearch =
-        searchTerm === '' ||
-        term.term.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        term.definition.toLowerCase().includes(searchTerm.toLowerCase())
-
-      const matchesCategory = selectedCategory === null || term.category === selectedCategory
-
-      return matchesSearch && matchesCategory
-    })
-  }, [searchTerm, selectedCategory])
-
-  const categoryColors: Record<string, string> = {
-    'Bayesian': 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-    'Statistics': 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-    'Adaptive-Design': 'bg-green-500/10 text-green-500 border-green-500/20',
-    'ML': 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-    'Ethics': 'bg-red-500/10 text-red-500 border-red-500/20',
-    'Regulatory': 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20',
-  }
+  const terms = useMemo(() => {
+    const qq = query.trim().toLowerCase()
+    return [...glossary]
+      .filter((t) => (cat === 'All' || t.category === cat) && (!qq || t.term.toLowerCase().includes(qq) || t.definition.toLowerCase().includes(qq)))
+      .sort((a, b) => a.term.localeCompare(b.term))
+  }, [query, cat])
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Glossary</h1>
-        <p className="mt-2 text-muted-foreground">
-          Essential terminology for clinical trials, Bayesian statistics, and adaptive designs
-        </p>
+    <div className="mx-auto max-w-4xl">
+      <PageHeader eyebrow="Reference" title="Glossary" lead={`${glossary.length} terms, each linked to the module that teaches it.`} />
+      <div className="mb-5 space-y-3">
+        <div className="relative">
+          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search terms and definitions…"
+            aria-label="Search glossary"
+            className="h-11 w-full rounded-lg border border-line-strong bg-surface pr-3 pl-9 text-sm"
+          />
+        </div>
+        <Segmented size="sm" value={cat} onChange={setCat} options={CATS.map((c) => ({ value: c, label: c }))} />
       </div>
-
-      {/* Search and Filters */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="space-y-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search terms or definitions..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full rounded-md border border-input bg-background px-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-
-            {/* Category filters */}
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setSelectedCategory(null)}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  selectedCategory === null
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                All
-              </button>
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  }`}
-                >
-                  {category.replace('-', ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Results count */}
-      <div className="text-sm text-muted-foreground">
-        Showing {filteredTerms.length} of {glossaryTerms.length} terms
-      </div>
-
-      {/* Terms list */}
-      <div className="space-y-4">
-        {filteredTerms.map((term) => (
-          <Card key={term.id}>
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <CardTitle className="text-xl">{term.term}</CardTitle>
-                  <div className="mt-2">
-                    <Badge
-                      variant="outline"
-                      className={categoryColors[term.category] || 'bg-muted'}
-                    >
-                      {term.category.replace('-', ' ')}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm leading-relaxed">{term.definition}</p>
-
-              {term.examples && term.examples.length > 0 && (
-                <div>
-                  <h4 className="mb-2 text-sm font-semibold">Examples:</h4>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    {term.examples.map((example, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="mr-2">•</span>
-                        <span>{example}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+      <p className="mb-3 text-sm text-muted" aria-live="polite">
+        {terms.length} {terms.length === 1 ? 'term' : 'terms'}
+      </p>
+      <dl className="divide-y divide-line rounded-xl border border-line bg-surface">
+        {terms.map((t) => {
+          const mod = curriculum.find((m) => m.id === t.module)
+          const see = (t.see ?? []).filter((s) => glossary.some((g) => g.term === s))
+          return (
+            <div key={t.term} id={slug(t.term)} className="scroll-mt-20 p-4">
+              <dt className="flex flex-wrap items-center gap-2">
+                <span className="font-semibold">{t.term}</span>
+                <Badge>{t.category}</Badge>
+              </dt>
+              <dd className="mt-1 text-sm leading-relaxed text-ink-2">{t.definition}</dd>
+              {(mod || see.length > 0) && (
+                <dd className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+                  {mod && (
+                    <Link to={`/learn/${mod.id}`} className="font-medium text-accent-text hover:underline">
+                      Module {mod.num}: {mod.title.split(':')[0]}
+                    </Link>
+                  )}
+                  {see.map((s) => (
+                    <a key={s} href={`#${slug(s)}`} onClick={() => setCat('All')} className="text-muted hover:text-ink hover:underline">
+                      See: {s}
+                    </a>
+                  ))}
+                </dd>
               )}
-
-              {term.relatedTerms.length > 0 && (
-                <div>
-                  <h4 className="mb-2 text-sm font-semibold">Related Terms:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {term.relatedTerms.map((relatedId) => {
-                      const relatedTerm = glossaryTerms.find((t) => t.id === relatedId)
-                      return relatedTerm ? (
-                        <Badge key={relatedId} variant="secondary">
-                          {relatedTerm.term}
-                        </Badge>
-                      ) : null
-                    })}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {filteredTerms.length === 0 && (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">
-              No terms found matching your search criteria.
-            </p>
-          </CardContent>
-        </Card>
-      )}
+            </div>
+          )
+        })}
+        {terms.length === 0 && <div className="p-8 text-center text-sm text-muted">No terms match.</div>}
+      </dl>
     </div>
   )
 }

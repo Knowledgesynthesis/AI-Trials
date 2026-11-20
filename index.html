@@ -2,11 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI Trials: Interactive educational platform for learning data science in clinical research" />
-    <meta name="theme-color" content="#0f172a" />
-    <title>AI Trials - Data Science in Clinical Research</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Learn modern clinical trial methods by doing: calculators and simulators for sample size, group-sequential monitoring, adaptive randomization, Bayesian analysis, estimands, multiplicity and AI/ML in trials."
+    />
+    <meta name="theme-color" content="#0b1220" />
+    <title>AI Trials — Modern Clinical Trial Methods</title>
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('ai-trials-v2') || '{}')
+        var t = (s.state && s.state.theme) || 'system'
+        var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', dark)
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

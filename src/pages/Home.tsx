@@ -1,211 +1,131 @@
-import { Link } from 'react-router-dom'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
-import { Badge } from '@/components/ui/Badge'
-import {
-  BookOpen,
-  Brain,
-  BarChart3,
-  FlaskConical,
-  Shield,
-  CheckCircle,
-  TrendingUp,
-} from 'lucide-react'
-import { useAppStore } from '@/store/appStore'
+import { useEffect } from 'react'
+import { Link } from 'react-router'
+import { ArrowRight, CheckCircle2, Circle, CircleDot, FlaskConical, ShieldCheck } from 'lucide-react'
+import { curriculum } from '@/data/curriculum'
+import { labs } from '@/data/labs'
+import { LAST_VERIFIED } from '@/data/references'
+import { ButtonLink } from '@/components/ui/primitives'
+import { MASTERY_THRESHOLD, useProgress } from '@/store/progress'
+import { cn } from '@/lib/utils'
 
-export function Home() {
-  const { userProgress } = useAppStore()
-  const completedCount = userProgress.completedModules.length
+const FEATURED = ['group-sequential', 'adaptive-randomization', 'bayesian', 'enrichment']
 
-  const features = [
-    {
-      icon: BookOpen,
-      title: 'Interactive Modules',
-      description: 'Learn clinical trial fundamentals, adaptive designs, and Bayesian methods',
-      href: '/modules',
-      color: 'text-blue-500',
-    },
-    {
-      icon: Brain,
-      title: 'Bayesian Laboratory',
-      description: 'Explore prior distributions, posterior updating, and credible intervals',
-      href: '/bayesian-lab',
-      color: 'text-purple-500',
-    },
-    {
-      icon: BarChart3,
-      title: 'Adaptive Design Simulator',
-      description: 'Simulate response-adaptive randomization and see allocation probabilities evolve',
-      href: '/adaptive-lab',
-      color: 'text-green-500',
-    },
-    {
-      icon: FlaskConical,
-      title: 'Trial Designer',
-      description: 'Design synthetic trials with different randomization schemes and endpoints',
-      href: '/trial-designer',
-      color: 'text-orange-500',
-    },
-    {
-      icon: Shield,
-      title: 'Ethics Center',
-      description: 'Understand equipoise, fairness, and regulatory considerations',
-      href: '/ethics',
-      color: 'text-red-500',
-    },
-    {
-      icon: CheckCircle,
-      title: 'Assessment Hub',
-      description: 'Test your knowledge with scenario-based questions and case studies',
-      href: '/assessment',
-      color: 'text-indigo-500',
-    },
-  ]
+export default function Home() {
+  const modules = useProgress((s) => s.modules)
+  useEffect(() => {
+    document.title = 'AI Trials — Modern Clinical Trial Methods'
+  }, [])
+
+  const status = (id: string) => {
+    const p = modules[id]
+    if (!p) return 'new'
+    if ((p.quizBest ?? 0) >= MASTERY_THRESHOLD) return 'mastered'
+    return 'started'
+  }
+  const mastered = curriculum.filter((m) => status(m.id) === 'mastered').length
+  const resume = curriculum.find((m) => status(m.id) === 'started') ?? curriculum.find((m) => status(m.id) === 'new')
 
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-lg border bg-gradient-to-br from-primary/10 via-background to-background p-8 md:p-12">
-        <div className="relative z-10">
-          <Badge className="mb-4">Educational Platform</Badge>
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-            AI Trials
-          </h1>
-          <p className="mt-4 text-xl text-muted-foreground md:text-2xl">
-            Data Science in Clinical Research
+    <div className="space-y-12">
+      <section className="relative overflow-hidden rounded-2xl border border-line bg-surface px-6 py-10 sm:px-10 sm:py-14">
+        <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent-soft blur-3xl" />
+        <div className="relative max-w-3xl">
+          <p className="mb-3 text-xs font-semibold tracking-wider text-accent-text uppercase">Clinical trial methodology · interactive course</p>
+          <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-5xl">Learn modern trial design by running it.</h1>
+          <p className="mt-4 text-lg text-ink-2 text-pretty">
+            Eleven modules and ten laboratories covering randomization, estimands, power, multiplicity, non-inferiority, group-sequential and adaptive designs,
+            Bayesian methods and AI in trials — every number computed exactly, every claim sourced.
           </p>
-          <p className="mt-4 max-w-2xl text-muted-foreground">
-            Master adaptive designs, Bayesian methods, and ML-enhanced trial strategies through
-            interactive simulations and evidence-based curriculum.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <Button asChild size="lg">
-              <Link to="/modules">Start Learning</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/glossary">Browse Glossary</Link>
-            </Button>
+          <div className="mt-7 flex flex-wrap gap-3">
+            {resume && (
+              <ButtonLink to={`/learn/${resume.id}`} size="lg">
+                {status(resume.id) === 'started' ? `Continue: Module ${resume.num}` : 'Start Module 1'} <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            )}
+            <ButtonLink to="/labs" variant="secondary" size="lg">
+              <FlaskConical className="h-4 w-4" /> Open the labs
+            </ButtonLink>
           </div>
+          <dl className="mt-8 grid max-w-xl grid-cols-3 gap-4 text-sm">
+            <div>
+              <dt className="text-ink-2">Modules mastered</dt>
+              <dd className="text-2xl font-semibold tabular">
+                {mastered}
+                <span className="text-base text-muted">/{curriculum.length}</span>
+              </dd>
+            </div>
+            <div>
+              <dt className="text-ink-2">Interactive labs</dt>
+              <dd className="text-2xl font-semibold tabular">{labs.length}</dd>
+            </div>
+            <div>
+              <dt className="text-ink-2">Sources verified</dt>
+              <dd className="text-base font-semibold">{LAST_VERIFIED}</dd>
+            </div>
+          </dl>
         </div>
-      </div>
+      </section>
 
-      {/* Progress Card */}
-      {completedCount > 0 && (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Your Progress</CardTitle>
-                <CardDescription>Keep up the great work!</CardDescription>
-              </div>
-              <TrendingUp className="h-8 w-8 text-primary" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Modules Completed</span>
-                <span className="font-medium">{completedCount}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Interactive Simulations</span>
-                <span className="font-medium">
-                  {Object.keys(userProgress.interactiveCompletions).length}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Assessments Taken</span>
-                <span className="font-medium">
-                  {Object.keys(userProgress.assessmentScores).length}
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Features Grid */}
-      <div>
-        <h2 className="mb-6 text-2xl font-bold">Explore Features</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => {
-            const Icon = feature.icon
+      <section>
+        <div className="mb-4 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight">The path</h2>
+            <p className="text-sm text-ink-2">Core modules first; each ends with a mastery check you must pass at 80%.</p>
+          </div>
+          <Link to="/learn" className="text-sm font-medium text-accent-text hover:underline">
+            Curriculum map →
+          </Link>
+        </div>
+        <ol className="grid gap-2 md:grid-cols-2">
+          {curriculum.map((m) => {
+            const st = status(m.id)
+            const Icon = st === 'mastered' ? CheckCircle2 : st === 'started' ? CircleDot : Circle
             return (
-              <Link key={feature.title} to={feature.href}>
-                <Card className="h-full transition-all hover:border-primary hover:shadow-md">
-                  <CardHeader>
-                    <Icon className={`h-10 w-10 ${feature.color}`} />
-                    <CardTitle className="mt-4">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
+              <li key={m.id}>
+                <Link to={`/learn/${m.id}`} className="group flex items-start gap-3 rounded-xl border border-line bg-surface p-4 transition-colors hover:border-accent">
+                  <Icon className={cn('mt-0.5 h-5 w-5 shrink-0', st === 'mastered' ? 'text-good' : st === 'started' ? 'text-accent-text' : 'text-muted')} aria-label={st} />
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold">
+                      <span className="mr-1.5 font-mono text-xs text-muted">{m.num}</span>
+                      {m.title}
+                    </div>
+                    <p className="mt-0.5 text-sm text-ink-2">{m.tagline}</p>
+                  </div>
+                </Link>
+              </li>
             )
           })}
+        </ol>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-xl font-semibold tracking-tight">Start with a lab</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {labs
+            .filter((l) => FEATURED.includes(l.id))
+            .map((l) => (
+              <Link key={l.id} to={l.path} className="group rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent">
+                <div className="flex items-center gap-2 font-semibold">
+                  <FlaskConical className="h-4 w-4 text-accent-text" /> {l.title}
+                </div>
+                <p className="mt-1.5 text-sm text-ink-2">{l.blurb}</p>
+              </Link>
+            ))}
         </div>
-      </div>
+      </section>
 
-      {/* Learning Paths */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Designed for All Levels</CardTitle>
-          <CardDescription>
-            From medical students to clinical researchers
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <h3 className="font-semibold">Medical Students & Residents</h3>
-              <p className="text-sm text-muted-foreground">
-                Build foundational understanding of trial design, randomization, and statistical concepts
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Fellows & Attendings</h3>
-              <p className="text-sm text-muted-foreground">
-                Master adaptive designs, Bayesian methods, and critical appraisal of ML-enhanced trials
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Research Coordinators</h3>
-              <p className="text-sm text-muted-foreground">
-                Understand trial monitoring, interim analyses, and regulatory requirements
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Key Principles */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Evidence-Based Learning</CardTitle>
-          <CardDescription>
-            Built on regulatory guidance and best practices
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-start">
-              <CheckCircle className="mr-2 mt-0.5 h-4 w-4 text-primary" />
-              <span>Aligned with FDA and ICH E9 guidance on adaptive designs</span>
-            </li>
-            <li className="flex items-start">
-              <CheckCircle className="mr-2 mt-0.5 h-4 w-4 text-primary" />
-              <span>Synthetic data only—no real patient information</span>
-            </li>
-            <li className="flex items-start">
-              <CheckCircle className="mr-2 mt-0.5 h-4 w-4 text-primary" />
-              <span>Conceptual ML integration focused on education, not clinical prediction</span>
-            </li>
-            <li className="flex items-start">
-              <CheckCircle className="mr-2 mt-0.5 h-4 w-4 text-primary" />
-              <span>Offline-capable and mobile-first for learning anywhere</span>
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
+      <section className="grid gap-4 rounded-2xl border border-line bg-surface p-6 md:grid-cols-[auto_1fr]">
+        <ShieldCheck className="h-8 w-8 text-accent-text" aria-hidden />
+        <div>
+          <h2 className="font-semibold">Why you can trust the numbers</h2>
+          <p className="mt-1 text-sm text-ink-2">
+            The statistics engine is tested against published reference values: Pocock (1977) and O'Brien–Fleming (1979) boundary constants, Lan–DeMets spending
+            boundaries, Jennison & Turnbull sample-size inflation factors, the Armitage peeking error rates, textbook sample sizes and high-precision distribution
+            values. Regulatory statements reflect guidance status as of {LAST_VERIFIED}; draft documents are labelled as drafts.
+          </p>
+          <p className="mt-2 text-xs text-muted">All patient data in the labs are synthetic.</p>
+        </div>
+      </section>
     </div>
   )
 }

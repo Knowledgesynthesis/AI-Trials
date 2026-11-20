@@ -1,181 +1,104 @@
-import { GlossaryTerm } from '@/types'
+import type { GlossaryTerm } from './types'
 
-export const glossaryTerms: GlossaryTerm[] = [
-  {
-    id: 'prior-distribution',
-    term: 'Prior Distribution',
-    definition:
-      'In Bayesian statistics, the prior distribution represents existing knowledge or beliefs about a parameter before observing new data. It is combined with the likelihood to produce the posterior distribution.',
-    category: 'Bayesian',
-    relatedTerms: ['posterior-distribution', 'likelihood', 'bayesian-updating'],
-    examples: [
-      'A beta(2,2) prior for response rate based on historical trials',
-      'A non-informative uniform prior when little is known about the parameter',
-    ],
-  },
-  {
-    id: 'posterior-distribution',
-    term: 'Posterior Distribution',
-    definition:
-      "The posterior distribution represents updated beliefs about a parameter after observing data. It is proportional to the prior distribution multiplied by the likelihood function, following Bayes' theorem.",
-    category: 'Bayesian',
-    relatedTerms: ['prior-distribution', 'credible-interval', 'bayesian-updating'],
-    examples: [
-      'After observing 10 responses out of 50 patients, the posterior beta distribution updates from beta(2,2) to beta(12,42)',
-    ],
-  },
-  {
-    id: 'credible-interval',
-    term: 'Credible Interval',
-    definition:
-      'A Bayesian alternative to confidence intervals. A 95% credible interval is interpreted as: "there is a 95% probability that the true parameter lies within this interval" given the observed data and prior.',
-    category: 'Bayesian',
-    relatedTerms: ['posterior-distribution', 'confidence-interval'],
-    examples: ['A 95% credible interval for treatment effect: [0.12, 0.45]'],
-  },
-  {
-    id: 'confidence-interval',
-    term: 'Confidence Interval',
-    definition:
-      'A frequentist interval estimate. A 95% confidence interval means: if we repeated the study many times, 95% of such intervals would contain the true parameter. It does NOT mean there is a 95% probability the parameter is in this specific interval.',
-    category: 'Statistics',
-    relatedTerms: ['credible-interval', 'p-value', 'hypothesis-testing'],
-    examples: ['95% CI for mean difference: [2.3, 5.7] units'],
-  },
-  {
-    id: 'adaptive-randomization',
-    term: 'Response-Adaptive Randomization',
-    definition:
-      'A randomization scheme where allocation probabilities change during the trial based on accumulating outcome data, potentially assigning more patients to better-performing arms while maintaining trial validity.',
-    category: 'Adaptive-Design',
-    relatedTerms: ['bayesian-adaptive-design', 'allocation-ratio', 'equipoise'],
-    examples: [
-      'Initially 1:1 randomization shifts to 2:1 favoring the treatment arm showing better interim results',
-    ],
-  },
-  {
-    id: 'interim-analysis',
-    term: 'Interim Analysis',
-    definition:
-      'A planned analysis conducted before the trial completes enrollment to assess efficacy, futility, or safety. Must account for multiple testing to control Type I error.',
-    category: 'Adaptive-Design',
-    relatedTerms: ['alpha-spending', 'stopping-boundary', 'conditional-power'],
-    examples: [
-      'Planned interim analysis at 50% information time to assess futility',
-    ],
-  },
-  {
-    id: 'alpha-spending',
-    term: 'Alpha Spending Function',
-    definition:
-      'A method to allocate the overall Type I error (alpha) across multiple interim analyses and the final analysis, controlling the family-wise error rate.',
-    category: 'Statistics',
-    relatedTerms: ['interim-analysis', 'type-i-error', 'stopping-boundary'],
-    examples: [
-      "O'Brien-Fleming spending function: spends little alpha early, more at later analyses",
-    ],
-  },
-  {
-    id: 'conditional-power',
-    term: 'Conditional Power',
-    definition:
-      'The probability of ultimately rejecting the null hypothesis at the end of the trial, given the current observed data and assumptions about future data.',
-    category: 'Statistics',
-    relatedTerms: ['interim-analysis', 'futility', 'power'],
-    examples: [
-      'At interim analysis, conditional power is 15% under current trend, suggesting futility',
-    ],
-  },
-  {
-    id: 'type-i-error',
-    term: 'Type I Error',
-    definition:
-      'The probability of rejecting the null hypothesis when it is actually true (false positive). Conventionally controlled at alpha = 0.05 or 5%.',
-    category: 'Statistics',
-    relatedTerms: ['type-ii-error', 'alpha-spending', 'p-value'],
-  },
-  {
-    id: 'type-ii-error',
-    term: 'Type II Error',
-    definition:
-      'The probability of failing to reject the null hypothesis when it is actually false (false negative). Related to statistical power by: Power = 1 - beta, where beta is the Type II error rate.',
-    category: 'Statistics',
-    relatedTerms: ['type-i-error', 'power', 'sample-size'],
-  },
-  {
-    id: 'equipoise',
-    term: 'Clinical Equipoise',
-    definition:
-      'A state of genuine uncertainty in the expert medical community about the relative therapeutic merits of treatments being compared. Essential ethical justification for randomized trials.',
-    category: 'Ethics',
-    relatedTerms: ['randomization', 'informed-consent', 'adaptive-randomization'],
-  },
-  {
-    id: 'stratification',
-    term: 'Stratification',
-    definition:
-      'Dividing the patient population into subgroups (strata) based on prognostic factors before randomization to ensure balance across treatment arms.',
-    category: 'Statistics',
-    relatedTerms: ['randomization', 'covariate', 'ml-stratification'],
-    examples: [
-      'Stratifying by disease stage (I/II vs III/IV) and age (<60 vs ≥60)',
-    ],
-  },
-  {
-    id: 'ml-stratification',
-    term: 'ML-Based Stratification',
-    definition:
-      'Using machine learning algorithms to identify patient subgroups or risk strata based on baseline features. Must be done carefully to maintain fairness and avoid bias.',
-    category: 'ML',
-    relatedTerms: ['stratification', 'predictive-enrichment', 'fairness'],
-    examples: [
-      'Clustering patients into risk groups using unsupervised learning on baseline biomarkers',
-    ],
-  },
-  {
-    id: 'stopping-boundary',
-    term: 'Stopping Boundary',
-    definition:
-      'A pre-specified threshold for a test statistic at interim analyses that, if crossed, triggers stopping the trial for efficacy or futility.',
-    category: 'Adaptive-Design',
-    relatedTerms: ['interim-analysis', 'alpha-spending', 'group-sequential'],
-    examples: [
-      "O'Brien-Fleming efficacy boundary: Z > 4.33 at first interim (25% information)",
-    ],
-  },
-  {
-    id: 'predictive-enrichment',
-    term: 'Predictive Enrichment',
-    definition:
-      'Selecting patients most likely to respond to treatment based on biomarkers or other characteristics to increase trial efficiency and effect size.',
-    category: 'Adaptive-Design',
-    relatedTerms: ['ml-stratification', 'biomarker', 'targeted-therapy'],
-    examples: [
-      'Enrolling only patients with specific genetic mutation shown to predict treatment response',
-    ],
-  },
-  {
-    id: 'fairness',
-    term: 'Algorithmic Fairness',
-    definition:
-      'In ML-enhanced trials, ensuring that algorithms do not systematically disadvantage patients based on protected characteristics like race, gender, or socioeconomic status.',
-    category: 'ML',
-    relatedTerms: ['ml-stratification', 'bias', 'equity'],
-  },
-  {
-    id: 'consort',
-    term: 'CONSORT',
-    definition:
-      'Consolidated Standards of Reporting Trials - an evidence-based set of recommendations for reporting randomized trials to improve transparency and completeness.',
-    category: 'Regulatory',
-    relatedTerms: ['spirit', 'ich-e9', 'reporting-standards'],
-  },
-  {
-    id: 'ich-e9',
-    term: 'ICH E9',
-    definition:
-      'International Council for Harmonisation guideline on Statistical Principles for Clinical Trials. E9(R1) addendum addresses estimands and sensitivity analyses.',
-    category: 'Regulatory',
-    relatedTerms: ['consort', 'estimand', 'regulatory-guidance'],
-  },
+export const glossary: GlossaryTerm[] = [
+  // Design
+  { term: 'Allocation concealment', category: 'Design', module: 'foundations', definition: 'Keeping the next assignment unknown to those enrolling patients until the patient is irrevocably entered. Prevents selection bias; always achievable, unlike blinding.', see: ['Blinding', 'Selection bias'] },
+  { term: 'Blinding (masking)', category: 'Design', module: 'foundations', definition: 'Keeping participants, care providers, outcome assessors and/or analysts unaware of assignment after randomization, to prevent performance and detection bias. Report which groups were blinded rather than using "double-blind".', see: ['Allocation concealment', 'PROBE design'] },
+  { term: 'Selection bias', category: 'Design', module: 'foundations', definition: 'Systematic differences between arms arising from how patients were assigned or enrolled — e.g. when recruiters can predict the next assignment.' },
+  { term: 'Permuted block randomization', category: 'Design', module: 'foundations', definition: 'Randomization in blocks containing equal numbers of each arm. Guarantees near-balance; predictable if block size is fixed and known, so block sizes should vary randomly.' },
+  { term: 'Stratified randomization', category: 'Design', module: 'foundations', definition: 'Separate randomization sequences within strata (e.g. centre, disease stage) to balance those factors. Limit to few strata and adjust for them in the analysis.' },
+  { term: 'Minimisation', category: 'Design', module: 'foundations', definition: 'Dynamic allocation (Pocock–Simon) that assigns each patient to the arm minimising imbalance across several prognostic factors, with a random element. Accepted by ICH E9 and EMA.' },
+  { term: 'Intention-to-treat (ITT)', category: 'Design', module: 'foundations', definition: 'Analysing all randomized participants in their assigned arm. Preserves randomized comparability; under ICH E9(R1) its role is expressed through the estimand.', see: ['Estimand', 'Per-protocol analysis'] },
+  { term: 'Per-protocol analysis', category: 'Design', module: 'foundations', definition: 'Analysis restricted to participants who adhered to the protocol. Breaks randomization because adherence is related to prognosis.' },
+  { term: 'PROBE design', category: 'Design', module: 'foundations', definition: 'Prospective, Randomized, Open, Blinded End-point: open-label treatment with blinded, often centrally adjudicated, outcome assessment.' },
+  { term: 'Crossover trial', category: 'Design', module: 'foundations', definition: 'Each participant receives the treatments in random order, separated by washout. Suitable only for chronic, stable conditions with reversible effects and no carry-over.' },
+  { term: 'Factorial trial', category: 'Design', module: 'foundations', definition: 'Tests two or more interventions simultaneously (e.g. 2×2). Efficient when the interventions do not interact.' },
+  { term: 'Cluster randomized trial', category: 'Design', module: 'foundations', definition: 'Randomizes groups (practices, villages) rather than individuals. Requires inflation by the design effect 1 + (m − 1)·ICC and clustered analysis.', see: ['Intracluster correlation (ICC)'] },
+  { term: 'Intracluster correlation (ICC)', category: 'Statistics', module: 'foundations', definition: 'Proportion of outcome variance due to differences between clusters. Small ICCs matter when clusters are large.' },
+  { term: 'Estimand', category: 'Design', module: 'estimands', definition: 'A precise description of the treatment effect a trial targets: population, treatments, variable, handling of intercurrent events, and population-level summary (ICH E9(R1)).', see: ['Intercurrent event'] },
+  { term: 'Intercurrent event', category: 'Design', module: 'estimands', definition: 'An event after treatment initiation (discontinuation, rescue, switching, death) that affects the interpretation or existence of outcome measurements.' },
+  { term: 'Treatment-policy strategy', category: 'Design', module: 'estimands', definition: 'Intercurrent events are regarded as part of the treatment strategy; outcomes are used regardless of whether the event occurs. Requires follow-up after discontinuation.' },
+  { term: 'Hypothetical strategy', category: 'Design', module: 'estimands', definition: 'Targets the effect in a specified scenario in which the intercurrent event would not occur; estimated under untestable assumptions such as MAR.' },
+  { term: 'Composite strategy', category: 'Design', module: 'estimands', definition: 'Incorporates the intercurrent event into the endpoint definition (e.g. as treatment failure).' },
+  { term: 'Surrogate endpoint', category: 'Design', module: 'multiplicity', definition: 'A biomarker or intermediate outcome used in place of a clinical outcome. Valid only if treatment effects on it reliably predict effects on the clinical outcome (CAST and ILLUMINATE are cautionary examples).' },
+  { term: 'Composite endpoint', category: 'Design', module: 'multiplicity', definition: 'An endpoint counting any of several events. Interpretable when components have similar importance and effects in the same direction; components must be reported separately.' },
+  { term: 'Win ratio', category: 'Statistics', module: 'multiplicity', definition: 'Hierarchical pairwise comparison of patients on prioritised outcomes (death first, then hospitalisation, …), giving the ratio of wins to losses for treatment.' },
+  { term: 'Pragmatic trial', category: 'Design', module: 'foundations', definition: 'A trial designed to estimate effectiveness under usual-care conditions; PRECIS-2 scores where a design sits between pragmatic and explanatory.' },
+
+  // Statistics
+  { term: 'p-value', category: 'Statistics', module: 'power', definition: 'Probability, assuming the null hypothesis and model are true, of data at least as extreme as observed. Not the probability that the null is true, and not a measure of effect size.' },
+  { term: 'Confidence interval', category: 'Statistics', module: 'power', definition: 'An interval from a procedure that covers the true value in a stated proportion of repetitions; the range of effects reasonably compatible with the data.', see: ['Credible interval'] },
+  { term: 'Type I error (α)', category: 'Statistics', module: 'power', definition: 'Rejecting a true null hypothesis (false positive). Conventionally one-sided 0.025 for confirmatory trials.' },
+  { term: 'Type II error (β)', category: 'Statistics', module: 'power', definition: 'Failing to reject a false null hypothesis (false negative). Power = 1 − β.' },
+  { term: 'Power', category: 'Statistics', module: 'power', definition: 'Probability of rejecting the null hypothesis when the true effect equals the design effect. Driven by effect size, variability (or events), α and sample size.' },
+  { term: 'Minimal clinically important difference (MCID)', category: 'Statistics', module: 'power', definition: 'The smallest difference patients or clinicians would regard as worthwhile; the appropriate basis for sample size.' },
+  { term: 'Number needed to treat (NNT)', category: 'Statistics', module: 'power', definition: 'Reciprocal of the absolute risk reduction: patients treated for the stated period to prevent one event.' },
+  { term: 'Hazard ratio', category: 'Statistics', module: 'estimands', definition: 'Ratio of instantaneous event rates between arms. Averages over time under non-proportional hazards and is non-collapsible; RMST differences are an interpretable complement.' },
+  { term: 'Restricted mean survival time (RMST)', category: 'Statistics', module: 'estimands', definition: 'Mean event-free time up to a fixed horizon; the area under the survival curve. Differences in RMST have a direct time interpretation.' },
+  { term: 'Type M / Type S error', category: 'Statistics', module: 'power', definition: 'Errors of magnitude (exaggeration) and sign that afflict statistically significant results from low-powered studies (Gelman & Carlin 2014).' },
+  { term: 'Familywise error rate (FWER)', category: 'Statistics', module: 'multiplicity', definition: 'Probability of at least one false positive among a family of tests. Controlled by Bonferroni, Holm, Hochberg, fixed-sequence or graphical procedures.' },
+  { term: 'Holm procedure', category: 'Statistics', module: 'multiplicity', definition: 'Step-down FWER procedure comparing ordered p-values with α/m, α/(m − 1), …; valid under any dependence and at least as powerful as Bonferroni.' },
+  { term: 'Hochberg procedure', category: 'Statistics', module: 'multiplicity', definition: 'Step-up FWER procedure; more powerful than Holm but requires independence or positive dependence.' },
+  { term: 'Fixed-sequence (hierarchical) testing', category: 'Statistics', module: 'multiplicity', definition: 'Tests hypotheses in a pre-specified order at full α, stopping at the first non-significant result.' },
+  { term: 'Test of interaction', category: 'Statistics', module: 'multiplicity', definition: 'Formal test of whether the treatment effect differs between subgroups; the correct basis for subgroup claims.' },
+  { term: 'Non-inferiority margin (M1, M2)', category: 'Statistics', module: 'non-inferiority', definition: 'M1: the active control’s effect versus placebo that can be assumed in the new trial; M2: the largest clinically acceptable loss, typically a fraction of M1.' },
+  { term: 'Constancy assumption', category: 'Statistics', module: 'non-inferiority', definition: 'The assumption that the active control’s effect in the NI trial equals its effect in the historical trials used to set the margin.' },
+  { term: 'Assay sensitivity', category: 'Statistics', module: 'non-inferiority', definition: 'The ability of a trial to distinguish an effective from an ineffective treatment; cannot be checked within a two-arm NI trial.' },
+  { term: 'TOST', category: 'Statistics', module: 'non-inferiority', definition: 'Two one-sided tests for equivalence; equivalent to requiring the (1 − 2α) CI to lie within (−M, +M).' },
+  { term: 'Covariate adjustment', category: 'Statistics', module: 'ai-ml', definition: 'Including pre-specified prognostic baseline variables in the analysis; increases precision (variance factor ≈ 1 − ρ² for ANCOVA) without biasing randomized comparisons.' },
+
+  // Interim / adaptive
+  { term: 'Group-sequential design', category: 'Adaptive', module: 'group-sequential', definition: 'A design with pre-planned interim analyses and stopping boundaries that control overall Type I error.' },
+  { term: 'Information fraction', category: 'Adaptive', module: 'group-sequential', definition: 'Proportion of the planned statistical information available at an interim analysis — patients for continuous/binary outcomes, events for time-to-event outcomes.' },
+  { term: 'Alpha-spending function', category: 'Adaptive', module: 'group-sequential', definition: 'A function α(t) giving the cumulative Type I error spent by information fraction t (Lan & DeMets 1983), allowing flexible timing of looks.' },
+  { term: "O'Brien–Fleming boundary", category: 'Adaptive', module: 'group-sequential', definition: 'Boundaries proportional to 1/√t: very strict early, close to the fixed-sample value at the end.' },
+  { term: 'Pocock boundary', category: 'Adaptive', module: 'group-sequential', definition: 'Constant critical value at every look; stops early more easily but raises the final threshold and the maximum sample size.' },
+  { term: 'Haybittle–Peto boundary', category: 'Adaptive', module: 'group-sequential', definition: 'Fixed, very strict interim threshold (e.g. Z ≥ 3), leaving the final analysis almost unchanged.' },
+  { term: 'Non-binding futility', category: 'Adaptive', module: 'group-sequential', definition: 'Futility guidance that the DMC may override; efficacy boundaries are computed as if futility stopping did not exist, so Type I error remains controlled.' },
+  { term: 'Conditional power', category: 'Adaptive', module: 'group-sequential', definition: 'Probability of a significant final result given interim data and an assumed effect for the remainder (design effect, current trend, or other).' },
+  { term: 'Predictive power', category: 'Adaptive', module: 'group-sequential', definition: 'Conditional power averaged over the posterior distribution of the effect (flat prior), Φ((Z − c√t)/√(1 − t)).' },
+  { term: 'Data monitoring committee (DMC)', category: 'Adaptive', module: 'group-sequential', definition: 'An independent committee that reviews unblinded interim data and recommends continuing, modifying or stopping a trial.' },
+  { term: 'Adaptive design', category: 'Adaptive', module: 'adaptive', definition: 'A design allowing prospectively planned modifications based on accumulating data (FDA 2019), with error control, reliable estimation and integrity safeguards.' },
+  { term: 'Sample-size re-estimation', category: 'Adaptive', module: 'adaptive', definition: 'Re-calculating sample size at an interim: blinded (nuisance parameters) or unblinded (effect estimate, needing α-preserving methods such as CHW weighting).' },
+  { term: 'Multi-arm multi-stage (MAMS)', category: 'Adaptive', module: 'adaptive', definition: 'Several experimental arms vs a shared control, with arms dropped at interim stages (e.g. STAMPEDE).' },
+  { term: 'Platform trial', category: 'Adaptive', module: 'adaptive', definition: 'A master protocol in which arms enter and leave over time (e.g. RECOVERY, REMAP-CAP, I-SPY 2). Concurrent controls avoid time-trend bias.' },
+  { term: 'Basket trial', category: 'Adaptive', module: 'adaptive', definition: 'One therapy tested across multiple diseases sharing a biomarker.' },
+  { term: 'Umbrella trial', category: 'Adaptive', module: 'adaptive', definition: 'Multiple therapies tested within one disease, matched to biomarker-defined subgroups.' },
+  { term: 'Response-adaptive randomization (RAR)', category: 'Adaptive', module: 'adaptive', definition: 'Allocation probabilities change according to accumulating outcomes. Controversial in two-arm trials (power loss, variability, time-trend bias); more defensible in multi-arm settings with safeguards.' },
+  { term: 'Non-concurrent controls', category: 'Adaptive', module: 'adaptive', definition: 'Control patients randomized before an experimental arm opened. Comparing against them confounds treatment with calendar time.' },
+  { term: 'Operating characteristics', category: 'Adaptive', module: 'adaptive', definition: 'Type I error, power, sample-size distribution and bias of a design across scenarios, usually established by simulation.' },
+
+  // Bayesian
+  { term: 'Prior distribution', category: 'Bayesian', module: 'bayesian', definition: 'Probability distribution expressing knowledge about a parameter before the trial data; must be pre-specified and justified.' },
+  { term: 'Posterior distribution', category: 'Bayesian', module: 'bayesian', definition: 'Updated distribution of the parameter given prior and data; posterior ∝ likelihood × prior.' },
+  { term: 'Credible interval', category: 'Bayesian', module: 'bayesian', definition: 'An interval containing the parameter with a stated posterior probability, given the prior and data.' },
+  { term: 'Effective sample size (of a prior)', category: 'Bayesian', module: 'bayesian', definition: 'Number of hypothetical patients a prior’s information is worth (a + b for a Beta prior; Morita et al. 2008).' },
+  { term: 'Sceptical prior', category: 'Bayesian', module: 'bayesian', definition: 'A prior centred on no effect with limited probability of large benefit, used to test whether data would convince a sceptic.' },
+  { term: 'Dynamic borrowing', category: 'Bayesian', module: 'bayesian', definition: 'Methods (power, commensurate, robust MAP priors) that borrow historical information less when it conflicts with current data.' },
+  { term: 'Predictive probability of success', category: 'Bayesian', module: 'bayesian', definition: 'Probability, averaged over the current posterior, that a trial will meet its success criterion at the final analysis.' },
+  { term: 'Prior–data conflict', category: 'Bayesian', module: 'bayesian', definition: 'Disagreement between prior information and observed data; robust priors limit its influence.' },
+
+  // AI/ML
+  { term: 'Discrimination (AUC)', category: 'AI/ML', module: 'ai-ml', definition: 'A model’s ability to rank higher-risk above lower-risk patients; the C-statistic or area under the ROC curve.' },
+  { term: 'Calibration', category: 'AI/ML', module: 'ai-ml', definition: 'Agreement between predicted and observed risks (calibration-in-the-large, slope). Essential whenever absolute risk thresholds drive decisions.' },
+  { term: 'External validation', category: 'AI/ML', module: 'ai-ml', definition: 'Evaluating a model in data from different sites, periods or populations than those used to develop it.' },
+  { term: 'Data leakage', category: 'AI/ML', module: 'ai-ml', definition: 'Information unavailable at prediction time (or from test data) entering model training, inflating apparent performance.' },
+  { term: 'Dataset shift', category: 'AI/ML', module: 'ai-ml', definition: 'Changes between development and deployment data (case mix, coding, devices, practice) that degrade model performance.' },
+  { term: 'Label bias', category: 'AI/ML', module: 'ai-ml', definition: 'Bias arising because the training target is a flawed proxy for what matters (e.g. cost for health need; Obermeyer et al. 2019).' },
+  { term: 'Prognostic enrichment', category: 'AI/ML', module: 'ai-ml', definition: 'Selecting patients at higher risk of the outcome to increase event rates and power (FDA 2019).', see: ['Predictive enrichment'] },
+  { term: 'Predictive enrichment', category: 'AI/ML', module: 'ai-ml', definition: 'Selecting patients more likely to respond to the treatment, typically by biomarker.' },
+  { term: 'PROCOVA', category: 'AI/ML', module: 'ai-ml', definition: 'Prognostic covariate adjustment using a score from a model trained on historical data ("digital twins"); qualified by EMA in 2022.' },
+  { term: 'Context of use', category: 'AI/ML', module: 'ai-ml', definition: 'In FDA’s 2025 draft AI guidance, the specific role and scope of a model in answering a regulatory question; determines the credibility evidence needed.' },
+  { term: 'Model risk (FDA)', category: 'AI/ML', module: 'ai-ml', definition: 'Combination of model influence (how much a decision relies on the model) and decision consequence (harm if wrong).' },
+  { term: 'Equal opportunity', category: 'AI/ML', module: 'ai-ml', definition: 'Fairness criterion requiring equal true-positive rates across groups; generally incompatible with within-group calibration when base rates differ.' },
+  { term: 'Synthetic / external control arm', category: 'AI/ML', module: 'ai-ml', definition: 'A comparator built from external data (historical trials, registries, EHR). Remains observational; subject to confounding.' },
+
+  // Ethics & regulation
+  { term: 'Clinical equipoise', category: 'Ethics & Regulation', module: 'ethics', definition: 'Honest professional disagreement in the expert community about the preferred treatment (Freedman 1987); the usual ethical basis for randomization.' },
+  { term: 'Therapeutic misconception', category: 'Ethics & Regulation', module: 'ethics', definition: 'Participants believing research procedures, such as allocation, are designed for their individual benefit.' },
+  { term: 'ICH E9(R1)', category: 'Ethics & Regulation', module: 'estimands', definition: 'ICH addendum (2019) introducing the estimand framework and clarifying sensitivity analysis.' },
+  { term: 'ICH E6(R3)', category: 'Ethics & Regulation', module: 'ethics', definition: 'Revised GCP guideline (Step 4 2025) emphasising quality by design and risk-proportionate oversight.' },
+  { term: 'ICH E20', category: 'Ethics & Regulation', module: 'adaptive', definition: 'Draft ICH guideline on adaptive designs (Step 2, June 2025).' },
+  { term: 'CONSORT 2025 / SPIRIT 2025', category: 'Ethics & Regulation', module: 'ethics', definition: 'Updated reporting guidelines for trial results (30 items) and protocols (34 items), with extensions for cluster, NI, adaptive (ACE) and AI trials.' },
+  { term: 'Prospective registration', category: 'Ethics & Regulation', module: 'ethics', definition: 'Public registration of a trial and its primary outcomes before the first participant enrols; required by ICMJE, Helsinki and FDAAA.' },
 ]

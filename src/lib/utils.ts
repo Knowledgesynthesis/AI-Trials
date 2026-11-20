@@ -1,42 +1,38 @@
-import { type ClassValue, clsx } from 'clsx'
+import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/**
- * Format number with specified decimal places
- */
-export function formatNumber(num: number, decimals: number = 2): string {
-  return num.toFixed(decimals)
+export function pct(x: number, digits = 1): string {
+  if (!Number.isFinite(x)) return '—'
+  return `${(x * 100).toFixed(digits)}%`
 }
 
-/**
- * Calculate percentage with formatting
- */
-export function formatPercentage(value: number, total: number, decimals: number = 1): string {
-  if (total === 0) return '0%'
-  return `${((value / total) * 100).toFixed(decimals)}%`
+export function fmt(x: number, digits = 2): string {
+  if (!Number.isFinite(x)) return x === Infinity ? '∞' : x === -Infinity ? '−∞' : '—'
+  const s = x.toFixed(digits)
+  return s.startsWith('-') ? `−${s.slice(1)}` : s
 }
 
-/**
- * Generate random integer between min and max (inclusive)
- */
-export function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+export function fmtInt(x: number): string {
+  if (!Number.isFinite(x)) return '—'
+  return Math.round(x).toLocaleString('en-US')
 }
 
-/**
- * Generate random float between min and max
- */
-export function randomFloat(min: number, max: number): number {
-  return Math.random() * (max - min) + min
+/** p-values: 3 significant digits, "< 0.0001" floor. */
+export function fmtP(p: number): string {
+  if (!Number.isFinite(p)) return '—'
+  if (p < 0.0001) return '< 0.0001'
+  if (p < 0.001) return p.toExponential(1).replace('e-', '×10⁻').replace(/⁻(\d)/, (_, d) => `⁻${'⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]}`)
+  return p.toFixed(p < 0.01 ? 4 : 3)
 }
 
-/**
- * Clamp value between min and max
- */
-export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
+export function clamp(x: number, lo: number, hi: number): number {
+  return Math.min(hi, Math.max(lo, x))
+}
+
+export function range(n: number): number[] {
+  return Array.from({ length: n }, (_, i) => i)
 }
